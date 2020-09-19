@@ -8,7 +8,7 @@ const Tabs = ({setView}) => (
                         <a className="nav-link" onClick={() => setView('overview')}>Overview</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" onClick={() => setView('liveview')}>Live Chart</a>
+                        <a className="nav-link" onClick={() => setView('liveview')}>Live View</a>
                     </li>
                 </ul>
             </div>
