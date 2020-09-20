@@ -52,7 +52,7 @@ const MyDashboard = () => {
             <Head>
                 <title>Upstox</title>
                 <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
-                <link rel="icon" type="image/x-icon" href="favicon.ico" />
+                <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
             </Head>
             <Tabs setView={setView} /> 
             <ErrorBoundary>
