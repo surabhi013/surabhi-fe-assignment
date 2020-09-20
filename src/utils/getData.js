@@ -16,10 +16,16 @@ function parseRows() {
 
 export function getHistoricalData() {
 	const res = fetch('http://kaboom.rksv.net/api/historical')
-		.then(response => response.text())
+		.then(response => {
+            if (response.status === 200) {
+                return response.text();
+              } else {
+                throw new Error(response.statusText);
+              }
+        })
         .then(data => parseCSVData(data))
         .catch(error => {
-             throw error; 
+             throw new Error(error); 
         });
 	return res;
 }

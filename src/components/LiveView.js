@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { parseCSVData } from '../utils/getData';
-import OHLCChart from "./OHLCChart";
+import OHLCChart from './OHLCChart';
 
-const io = require("socket.io-client");
+const io = require('socket.io-client');
 const watch = io.connect('http://kaboom.rksv.net/watch');
 
 const LiveView = ({historicalData, setHistoricalData}) => {
@@ -31,13 +31,11 @@ const LiveView = ({historicalData, setHistoricalData}) => {
 
     return(
         <React.Fragment>
-            <div className="container"><h3>Live View</h3></div>
-            {error ? 
-                <div className="container">
-                    {error}
-                </div> : 
-                <OHLCChart data={liveData} />
-            }
+            <div className='container'>
+                <h3>Live View</h3>
+                {error}
+                {!error && <OHLCChart data={liveData} />}
+            </div>
         </React.Fragment>
     )
 }

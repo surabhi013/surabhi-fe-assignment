@@ -3,10 +3,7 @@ import Chart from '../libs/Chart';
 const OHLCChart = ({data}) => {
     return (
         <React.Fragment>
-        {!data || data.length === 0 ?
-            <div className="progress">
-                <div className="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"></div>
-            </div> :
+        {data && data.length > 2 &&
             <Chart data={data} />
         }
         </React.Fragment>

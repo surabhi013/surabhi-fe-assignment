@@ -36,11 +36,10 @@ const MyDashboard = () => {
                 {view === 'overview' && <Overview data={historicalData} />}
                 {view === 'liveview' && <LiveView historicalData={historicalData} setHistoricalData={setHistoricalData}/>}
             </ErrorBoundary>
-            {error && 
-                <div className="container">
-                    {error}
-                </div>
-            }
+            <div className='container'>
+                {noData && !error && <h5>Loading data....</h5>}
+                {error}
+            </div>
         </div>
     )
 }
