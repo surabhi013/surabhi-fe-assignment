@@ -53,6 +53,7 @@ const MyDashboard = () => {
                 <title>Upstox</title>
                 <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
                 <link rel="icon" type="image/x-icon" href="/images/favicon.ico" />
+                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests"></meta>
             </Head>
             <Tabs setView={setView} /> 
             <ErrorBoundary>
