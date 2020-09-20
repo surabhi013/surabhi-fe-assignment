@@ -2,11 +2,10 @@
   "name": "upstox",
   "version": "1.0.0",
   "description": "Frontend Assignment - Surabhi",
-  "main": "src/pages/index.js",
+  "main": "pages/index.js",
   "scripts": {
-    "dev": "next",
     "build": "next build",
-    "start": "next start",
+    "start": "node server.js",
     "test": "jest"
   },
   "author": "Surabhi Shah",
