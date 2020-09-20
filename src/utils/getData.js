@@ -31,6 +31,7 @@ export function getHistoricalData() {
 }
 
 export function parseCSVData(data) {
+    // Parse data into an array of objects
     data = data.split(',","').join('\n');
     data = data.substring(2, data.length - 3);
     return csvParseRows(data, parseRows());
