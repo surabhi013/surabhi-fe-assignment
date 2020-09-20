@@ -5,9 +5,18 @@ import OHLCChart from './OHLCChart';
 const io = require('socket.io-client');
 const watch = io.connect('http://kaboom.rksv.net/watch');
 
-const LiveView = ({historicalData, setHistoricalData}) => {
+const LiveView = ({historicalData}) => {
+    const parseFromStorage = (entries) => {
+        const res = entries ? entries.map(e => {
+            return {
+                ...e,
+                date: new Date(e.date)
+            };
+        }) : null;
+        return res;
+    }
     const [error, setError] = useState('');
-    const [liveData, setLiveData] = useState(historicalData || []);    
+    const [liveData, setLiveData] = useState(parseFromStorage(JSON.parse(localStorage.getItem('liveData'))) || historicalData || []);    
     let timer = null;
 
     useEffect(() => {
@@ -15,7 +24,10 @@ const LiveView = ({historicalData, setHistoricalData}) => {
         watch.emit('sub', {state: true});
         timer = setTimeout(() => {
             watch.on('data', function(data, ack) {
-                setLiveData([...liveData, ...parseCSVData(data)]);
+                // Set updated data in local storage
+                localStorage.setItem('liveData', JSON.stringify([...liveData, ...parseCSVData(data)]));
+                // Get from local storage and set state
+                setLiveData(parseFromStorage(JSON.parse(localStorage.getItem('liveData'))));
                 ack(1);
             });
         }, 100);
@@ -23,7 +35,6 @@ const LiveView = ({historicalData, setHistoricalData}) => {
             setError(error.toString());
         });
         return () => {
-            setHistoricalData(liveData);
             watch.emit('unsub', {state: false});
             clearTimeout(timer);
         }

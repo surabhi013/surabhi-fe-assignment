@@ -57,7 +57,7 @@ const MyDashboard = () => {
             <Tabs setView={setView} /> 
             <ErrorBoundary>
                 {view === 'overview' && <Overview data={historicalData} />}
-                {view === 'liveview' && <LiveView historicalData={historicalData} setHistoricalData={setHistoricalData}/>}
+                {view === 'liveview' && <LiveView historicalData={historicalData} />}
             </ErrorBoundary>
             <div className='container'>
                 {noData && !error && <h5>Loading data....</h5>}
