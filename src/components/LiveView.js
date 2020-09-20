@@ -30,13 +30,10 @@ const LiveView = ({historicalData, setHistoricalData}) => {
     }, [liveData]);
 
     return(
-        <React.Fragment>
-            <div className='container'>
-                <h3>Live View</h3>
-                {error}
-                {!error && <OHLCChart data={liveData} />}
-            </div>
-        </React.Fragment>
+        <div className='container'>
+            <h3>Live View</h3>
+            {error ? <div>{error}</div> : <OHLCChart data={liveData} />}
+        </div>
     )
 }
 

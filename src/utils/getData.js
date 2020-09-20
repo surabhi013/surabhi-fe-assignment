@@ -2,9 +2,8 @@ import { csvParseRows } from 'd3-dsv';
 
 function parseRows() {
 	return function(d) {
-        const epochSeconds = d[0]/1000;
 		return {
-            date: new Date(epochSeconds*1000),
+            date: new Date(parseInt(d[0])),
             open: +d[1],
             high: +d[2],
             low: +d[3],
