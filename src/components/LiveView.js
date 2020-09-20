@@ -5,24 +5,29 @@ import OHLCChart from "./OHLCChart";
 const io = require("socket.io-client");
 const watch = io.connect('http://kaboom.rksv.net/watch');
 
-const LiveView = ({historicalData}) => {
+const LiveView = ({historicalData, setHistoricalData}) => {
     const [error, setError] = useState('');
-    const [parsedData, setParsedData] = useState(historicalData || []);    
-    
+    const [liveData, setLiveData] = useState(historicalData || []);    
+    let timer = null;
+
     useEffect(() => {
-        watch.emit('ping', {})
-        watch.emit('sub', {state: true})
-        watch.on('data', function(data, ack) {
-            setParsedData([...parsedData, ...parseCSVData(data)]);
-            ack(1);
-        })
+        watch.emit('ping', {});
+        watch.emit('sub', {state: true});
+        timer = setTimeout(() => {
+            watch.on('data', function(data, ack) {
+                setLiveData([...liveData, ...parseCSVData(data)]);
+                ack(1);
+            });
+        }, 100);
         watch.on('error', function(error) {
             setError(error.toString());
-        })
+        });
         return () => {
-            watch.emit('unsub', {state: false})
+            setHistoricalData(liveData);
+            watch.emit('unsub', {state: false});
+            clearTimeout(timer);
         }
-    }, [parsedData]);
+    }, [liveData]);
 
     return(
         <React.Fragment>
@@ -31,7 +36,7 @@ const LiveView = ({historicalData}) => {
                 <div className="container">
                     {error}
                 </div> : 
-                <OHLCChart data={parsedData} />
+                <OHLCChart data={liveData} />
             }
         </React.Fragment>
     )

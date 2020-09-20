@@ -18,7 +18,9 @@ export function getHistoricalData() {
 	const res = fetch('http://kaboom.rksv.net/api/historical')
 		.then(response => response.text())
         .then(data => parseCSVData(data))
-        .catch(error => { console.log(error); throw error });
+        .catch(error => {
+             throw error; 
+        });
 	return res;
 }
 

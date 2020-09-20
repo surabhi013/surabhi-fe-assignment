@@ -9,29 +9,32 @@ import { getHistoricalData } from '../src/utils/getData';
 const MyDashboard = () => {
     const [view, setView] = useState('overview');
     const [error, setError] = useState('');
-    const [parsedData, setParsedData] = useState([]);    
+    const [historicalData, setHistoricalData] = useState([]);
+    const noData = historicalData.length === 0;
     
     useEffect(() => {
         let isSubscribed = true;
-        async function setData() {
-            getHistoricalData().then(data => (isSubscribed ? setParsedData(data) : null))
-            .catch(error => (isSubscribed ? setError(error.toString()) : null));
-        };
-        setData();
-
+        if(noData) {
+            async function setData() {
+                getHistoricalData().then(data => (isSubscribed ? setHistoricalData(data) : null))
+                .catch(error => (isSubscribed ? setError(error.toString()) : null));
+            };
+            setData();
+        }
         return () => (isSubscribed = false);
-    }, []);
+    }, [noData]);
 
     return(
         <div>
             <Head>
                 <title>Upstox</title>
                 <link rel="stylesheet" href="https://bootswatch.com/4/cerulean/bootstrap.min.css"/>
+                <link rel="icon" type="image/x-icon" href="favicon.ico" />
             </Head>
             <Tabs setView={setView} /> 
             <ErrorBoundary>
-                {view === 'overview' && <Overview data={parsedData} />}
-                {view === 'liveview' && <LiveView historicalData={parsedData}/>}
+                {view === 'overview' && <Overview data={historicalData} />}
+                {view === 'liveview' && <LiveView historicalData={historicalData} setHistoricalData={setHistoricalData}/>}
             </ErrorBoundary>
             {error && 
                 <div className="container">
