@@ -24,6 +24,29 @@ const MyDashboard = () => {
         return () => (isSubscribed = false);
     }, [noData]);
 
+    useEffect(() => {
+        // Register service worker
+        if(typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                .then(reg => console.log('Service worker registered'))
+                .catch(err => console.log(`Service worker error: ${err}`));
+            });
+        }
+
+        // Unregister
+        return () => {
+            if(typeof navigator !== 'undefined' && 'serviceWorker' in navigator) {
+                navigator.serviceWorker.getRegistrations()
+                .then(function(registrations) {
+                    for(let registration of registrations) {
+                        registration.unregister();
+                    }
+                });
+            }   
+        }
+    }, []);
+
     return(
         <div>
             <Head>
